@@ -61,6 +61,6 @@ VOLUME /usr/share/elasticsearch/data
 
 COPY docker-entrypoint.sh /
 
-EXPOSE 9200 9300
+EXPOSE 9300
 ENTRYPOINT ["/docker-entrypoint.sh"]
-CMD ["/bin/sh", "-c", "if ! plugin list | grep -q delete-by-query; then plugin install delete-by-query", "elasticsearch"]
+CMD ["elasticsearch"]
