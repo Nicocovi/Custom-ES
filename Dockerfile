@@ -1,7 +1,7 @@
 FROM openjdk:8-jre
 
 # grab gosu for easy step-down from root
-ENV GOSU_VERSION=1.10
+ENV GOSU_VERSION 1.10
 RUN set -x \
 	&& wget -O /usr/local/bin/gosu "https://github.com/tianon/gosu/releases/download/$GOSU_VERSION/gosu-$(dpkg --print-architecture)" \
 	&& wget -O /usr/local/bin/gosu.asc "https://github.com/tianon/gosu/releases/download/$GOSU_VERSION/gosu-$(dpkg --print-architecture).asc" \
@@ -27,8 +27,8 @@ RUN set -x \
 	&& apt-get update && apt-get install -y --no-install-recommends apt-transport-https && rm -rf /var/lib/apt/lists/* \
 	&& echo 'deb http://packages.elasticsearch.org/elasticsearch/2.x/debian stable main' > /etc/apt/sources.list.d/elasticsearch.list
 
-ENV ELASTICSEARCH_VERSION=2.4.6
-ENV ELASTICSEARCH_DEB_VERSION=2.4.6
+ENV ELASTICSEARCH_VERSION 2.4.6
+ENV ELASTICSEARCH_DEB_VERSION 2.4.6
 
 RUN set -x \
 	\
@@ -61,6 +61,6 @@ VOLUME /usr/share/elasticsearch/data
 
 COPY docker-entrypoint.sh /
 
-EXPOSE 9300 9200 443 80 8080
+EXPOSE $PORT
 ENTRYPOINT ["/docker-entrypoint.sh"]
-CMD ["/bin/sh", "-c", "if ! plugin list | grep -q delete-by-query; then plugin install delete-by-query; fi && gosu elasticsearch elasticsearch"]
+CMD ["/bin/sh", "-c", "if ! plugin list | grep -q delete-by-query; then plugin install delete-by-query", "elasticsearch"]
